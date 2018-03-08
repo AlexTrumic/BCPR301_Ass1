@@ -13,9 +13,8 @@ class Controller(object):
         print(self.val.val_empid(self.clean.clean_empid(data)))
 
     def test_gender(self):
-        data = 'female'
-        print(self.clean.clean_gender(data))
-        print (self.val.val_gender(self.clean.clean_gender(data)))
+        data = 'lbp'
+        print (self.val.val_gender(data))
 
     def test_bmi(self):
         data = 'normal'
@@ -23,4 +22,4 @@ class Controller(object):
         print(self.val.val_bmi(self.clean.clean_bmi(data)))
 
 control = Controller()
-control.test_empid()
+control.test_gender()

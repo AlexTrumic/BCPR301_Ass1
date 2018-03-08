@@ -12,5 +12,18 @@ class Cleaner(object):
             result = "F"
         return result
 
+    def clean_age(self, data):
+        pass
+
+    def clean_sales(self, data):
+        pass
+
     def clean_bmi(self, data):
         return data.capitalize()
+
+    def clean_salary(self, data):
+        pass
+
+    def clean_birthday(self, data):
+        pass
+

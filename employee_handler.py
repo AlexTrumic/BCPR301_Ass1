@@ -4,7 +4,7 @@ class EmployeeHandeler:
     all_my_employees = []
 
     def add_employee(self, empid, gender, age, sales, bmi, salary, birthday):
-        employee = Employee(self, empid, gender, age, sales, bmi, salary, birthday)
+        employee = Employee(empid, gender, age, sales, bmi, salary, birthday)
         self.all_my_employees.append(employee)
 
     def update_employe(self, empid, new_gender, new_age, new_sales, new_bmi, new_salary, new_birthday):
