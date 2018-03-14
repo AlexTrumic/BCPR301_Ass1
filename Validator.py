@@ -1,4 +1,5 @@
 from Cleaner import Cleaner
+import re
 
 class Validator(object):
 
