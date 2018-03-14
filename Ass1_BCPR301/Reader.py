@@ -1,6 +1,7 @@
 import xml.etree.ElementTree as ET
 from Employee import *
 from Validator import *
+import csv
 
 class Reader():
 
@@ -23,6 +24,26 @@ class Reader():
             #new_Employee = Employee(empid, gender, int(age), int(sales), bmi, int(salary), birthday)
             #my_Employees[new_Employee.EMPID] = new_Employee
         return my_Employees
+
+    def CSV_Reader(self, file_Location, error_File_Location):
+        MyValidator = Validator()
+        my_Employees = {}
+        try:
+            file = csv.open(file_Location, 'r')
+        except FileNotFoundError as e:
+            print(e)
+        else:
+            fieldnames = ('empid', 'gender', 'age', 'sales', 'bmi', 'salary', 'birthday')
+            reader = csv.DictReader(file, fieldnames)
+            next(file, None) #skip header
+            for row in reader:
+                employee = Employee(row['empid'], row['gender'], row['age'], row['sales'], row['bmi'],
+                                    row['salary'], row['birthday'])
+                my_Employees[employee.my_empid] = employee
+
+            csv.file.close()
+            return my_Employees
+
 
     def read_Config(self, file_Location):
         tree = ET.parse(file_Location)

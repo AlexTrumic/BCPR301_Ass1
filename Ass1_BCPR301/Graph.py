@@ -1,4 +1,5 @@
-import pygal  # First import pygal
+import plotly as plt
+import plotly.graph_objs as go
 
 class Graph():
 
@@ -11,5 +12,11 @@ class Graph():
 		pass
 		
 	#Kate
-	def Create_Scatter():
-		pass
+	def Create_Scatter(self, data1, data2):
+        data = go.Scatter(
+            x = data,
+            y = data2,
+            mode = 'markers'
+        )
+
+        self.graph = plt.iplot(data, filename='scatter-plot')

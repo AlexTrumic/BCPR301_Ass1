@@ -45,3 +45,11 @@ class Cleaner():
         if (error != ""):
             new_Birthday = None
         return new_Birthday, error
+
+    def Clean_Sales(self, data):
+        return data
+
+    def Clean_salary(self, data):
+        return data
+
+
