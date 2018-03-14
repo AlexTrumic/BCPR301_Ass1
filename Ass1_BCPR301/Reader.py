@@ -1,5 +1,5 @@
 import xml.etree.ElementTree as ET
-from Employee import *
+from Employee import Employee # Ryan: changed the star to employee dont know if it will break your code or not
 from Validator import *
 
 class Reader():
@@ -34,3 +34,25 @@ class Reader():
             config_ddb_username = database.find('username').text
             config_ddb_password = database.find('password').text
         return config_user,config_error_file, config_ddb_location, config_ddb_username, config_ddb_password
+
+    def read_file_txt(self,all_my_employees):
+        with open("employees.txt", "r") as file:
+            data = file.readlines
+            for line in data:
+                emp = line.split(",")
+                employee = Employee(emp[0], emp[1], emp[2], emp[3], emp[4], emp[5], emp[6])
+                all_my_employees[emp[0]] = employee
+        return all_my_employees
+
+
+    def write_file_txt(self, employees):
+        with open("employees.txt", "w") as file:
+            for emp in employees:
+                empid = emp.my_empid
+                gender = emp.my_gender
+                age = emp.my_age
+                sales = emp.my_sales
+                bmi = emp.my_bmi
+                salary = emp.my_salary
+                birthday = emp.my_birthday
+                file += empid + "," + gender + "," + age + "," + sales + "," + bmi + "," + salary + "," + birthday + "/n"
