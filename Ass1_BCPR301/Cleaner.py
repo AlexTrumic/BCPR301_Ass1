@@ -1,4 +1,17 @@
 class Cleaner():
+
+    def clean_empid(self, data):
+        result = data.upper()
+        return result
+
+    def clean_gender(self, data):
+        result = data.upper()
+        if (result == "MALE"):
+            result = "M"
+        if (result == "FEMALE"):
+            result = "F"
+        return result
+
     def Clean_Age(self, input):
         error = ""
         new_Age = None
@@ -8,6 +21,9 @@ class Cleaner():
             error = "That was not a number for age in numeric form"
             new_Age = None
         return new_Age, error
+
+    def clean_bmi(self, data):
+        return data.capitalize()
 
     def Clean_Birthday(self, input):
         error = ""

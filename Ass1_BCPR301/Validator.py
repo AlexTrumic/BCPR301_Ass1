@@ -2,9 +2,43 @@ from Cleaner import *;
 import datetime;
 
 class Validator():
+
+    #Ryan Parker
+    def val_empid(self, data):
+        if len(data) == 4:
+            if data[0].isalpha():
+                pass
+            else:
+                error = 'frist charater must be alhpabetical'
+                return False, error
+            for x in data[1]:
+                if x.isdigit():
+                    pass
+                else:
+                    error = 'last 3 charaters in empid must be numbers'
+                    return False, error
+            for emp in self.e.all_my_employees:
+                if emp.my_empid != data:
+                    pass
+                else:
+                    error = 'empid exists'
+                    return False, error
+            error = ''
+            return True, error
+        else:
+            error = 'empid must be four characters long'
+            return False, error
+
+    # Ryan Parker
+    def val_gender(self, data):
+        if data == "M" or data == "F":
+            return True, ''
+        else:
+            error = 'gender must be: M or F'
+            return False, error
+
     def Validate_Age(self, Given_Age):
-        myCleaner = Cleaner()
-        result = myCleaner.Clean_Age(Given_Age)
+        result = Given_Age
         error = ""
         output = False
         #Checks to see if the Cleaner could clean the Given_Age
@@ -19,11 +53,18 @@ class Validator():
             error = result[1]
         return output, error
 
+    #Ryan Parker
+    def val_bmi(self, data):
+        if data == 'Normal' or data == 'Overweight' or data == 'Obesity' or data == 'Underweight':
+            return True, ''
+        else:
+            error = 'bmi must be: Normal, Overweight, Obesity or Underweight'
+            return False, error
+
     def Validate_Birthday(self, Given_Birthday, Given_Age):
         output = False
         error = ""
-        my_Cleaner = Cleaner()
-        result = my_Cleaner.Clean_Birthday(Given_Birthday)
+        result = Given_Birthday
         #Checks to see if the birthday was cleaned
         if(result[0] != None):
             if(result[1] == ""):
