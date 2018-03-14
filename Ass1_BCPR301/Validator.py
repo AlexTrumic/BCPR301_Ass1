@@ -4,7 +4,7 @@ import datetime;
 class Validator():
 
     #Ryan Parker
-    def val_empid(self, data):
+    def val_empid(self, employees, data):
         if len(data) == 4:
             if data[0].isalpha():
                 pass
@@ -17,7 +17,7 @@ class Validator():
                 else:
                     error = 'last 3 charaters in empid must be numbers'
                     return False, error
-            for emp in self.e.all_my_employees:
+            for emp in employees:
                 if emp.my_empid != data:
                     pass
                 else:
