@@ -29,9 +29,14 @@ class Validator(object):
         self.clean.clean_age(data)
         return True
 
-    def val_sales(self, data):
-        self.clean.clean_sales(data)
-        return True
+        def Validate_Sales(self, Given_Sales):
+        #check if the sales within range
+        pattern = re.compile(r'\d{3}')
+        if pattern.match(Given_Sales):
+            return True
+        else:
+            ValueError as e
+            return Given_Sales, e
 
     def val_bmi(self, data):
         data = self.clean.clean_bmi(data)
@@ -40,9 +45,13 @@ class Validator(object):
         else:
             return False
 
-    def val_salary(self, data):
-        self.clean.clean_salary(data)
-        return True
+    def Validate_Salary(self, Given_Salary):
+    pattern = re.compile(r'[0-9]{2,3}')
+    if pattern.match(Given_Salary):
+        try:
+            return True
+        except ValueError as e:
+            return Given_Salary, e
 
     def val_birthday(self, data):
         self.clean.clean_birthday(data)
