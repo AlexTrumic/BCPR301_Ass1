@@ -1,5 +1,6 @@
-from Cleaner import *;
-import datetime;
+from Cleaner import *
+import re
+import datetime
 
 class Validator():
 
@@ -52,7 +53,26 @@ class Validator():
         else:
             error = result[1]
         return output, error
-
+    
+    #Kate Pham
+    def Validate_Salary(self, Given_Salary):
+        pattern = re.compile(r'[0-9]{2,3}')
+        if pattern.match(Given_Salary):
+            try:
+                return True
+            except ValueError as e:
+                return Given_Salary, e
+            
+    #Kate Pham
+    def Validate_Sales(self, Given_Sales):
+        #check if the sales within range
+        pattern = re.compile(r'\d{3}')
+        if pattern.match(Given_Sales):
+            return True
+        else:
+            e = "Sales value must be an interger"
+            return Given_Sales, e
+        
     #Ryan Parker
     def val_bmi(self, data):
         if data == 'Normal' or data == 'Overweight' or data == 'Obesity' or data == 'Underweight':
