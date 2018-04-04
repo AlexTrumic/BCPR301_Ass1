@@ -1,4 +1,21 @@
+import re
+
 class Cleaner():
+
+    # Ryan Parker
+    def clean_empid(self, data):
+        result = data.upper()
+        return result
+    # Ryan Parker
+    def clean_gender(self, data):
+        result = data.upper()
+        if (result == "MALE"):
+            result = "M"
+        if (result == "FEMALE"):
+            result = "F"
+        return result
+
+    #Alex
     def Clean_Age(self, input):
         error = ""
         new_Age = None
@@ -8,6 +25,21 @@ class Cleaner():
             error = "That was not a number for age in numeric form"
             new_Age = None
         return new_Age, error
+
+    # Ryan Parker
+    def clean_bmi(self, data):
+        return data.capitalize()
+
+    #Kate Pham
+    def clean_salary(self, data):
+        new_sale = re.sub(r'[^0-9]', "", data)
+        return new_sale
+
+    #Kate Pham
+    def clean_sales(self, data):
+        new_sale = re.sub(r'[^0-9]', "", data)
+        return new_sale
+
 
     def Clean_Birthday(self, input):
         error = ""
@@ -38,18 +70,10 @@ class Cleaner():
                 new_Birthday = str_Day + "-" + str_Month  + "-" + str_Year
         except:
             error = "There are no nonnumerical seperators"
-            new_Birthday = None
+            new_Birthday = ""
         if(len(new_Birthday) == 3):
-            error = "There are no numbers in birthday"
-            new_Birthday = None
+           error = "There are no numbers in birthday"
+           new_Birthday = ""
         if (error != ""):
-            new_Birthday = None
+            new_Birthday = ""
         return new_Birthday, error
-
-    def Clean_Sales(self, data):
-        return data
-
-    def Clean_salary(self, data):
-        return data
-
-

@@ -2,39 +2,72 @@ from cmd import Cmd
 from Model_Handler import *
 import tkinter as tk
 from tkinter import filedialog
-
+from Validator import *
+import pickle
+import os
+from Reader import *
 
 class My_CMD(Cmd):
 
     def __init__(self, model_Handler):
         Cmd.__init__(self)
         self.My_Model_Handler = model_Handler
-        self.My_Model_Handler.Get_All_Employees_Database()
+        self.My_Model_Handler.Create_DDB()
         self.prompt = ">>> "
         self.intro = "Welcome to BCPR301_Ass1 Interpreter \nIf help with options is needed type 'help'"
 
-    def do_ImportFile(self, file_type):
-       """
+    def do_ImportFile(self, file_Location):
+        """
         Syntax: ImPortFile(file_type)
         Adds all new employees from file to Model_Handler.All_My_Employees
         param: file_type : a string representing what type of file it is. Options: txt, xml, csv
         returns: None
-       """
-       root = tk.Tk()
-       root.withdraw()
-       file_path = filedialog.askopenfilename()
-       my_Reader = Reader()
+        """
+        my__reader = Reader()
+        if ".txt" in file_Location:
+            self.My_Model_Handler.load_txt()
 
-       if(file_type == "txt"):
-           pass
+        elif ".xml" in file_Location:
+            self.My_Model_Handler.all_My_Employees.update(
+                my__reader.XML_Reader(file_Location, self.My_Model_Handler.error_File,
+                                     self.My_Model_Handler.all_My_Employees))
 
-       if (file_type == "xml"):
-           self.My_Model_Handler.all_My_Employees.update(my_Reader.XML_Reader(file_path, self.My_Model_Handler.error_File))
+        elif ".csv" in file_Location:
+            self.My_Model_Handler.all_My_Employees.update(my__reader.csv_reader(file_Location))
 
-       if (file_type == "csv"):
-           pass
+        else:
+            print("Only xml, txt or csv file can be imported")
 
+       #  # Alex
+       # if file_type not in ["txt", "csv", "xml"]:
+       #      print("Please specify a file type")
+       # else:
+       #     root = tk.Tk()
+       #     root.withdraw()
+       #     file_path = filedialog.askopenfilename()
+       #     my_Reader = Reader()
+       #
+       #     # Ryan parker
+       #     if file_type == "txt":
+       #         self.My_Model_Handler.load_txt()
+       #     # Alex
+       #     if file_type == "xml":
+       #         self.My_Model_Handler.all_My_Employees.update(my_Reader.XML_Reader(file_path, self.My_Model_Handler.error_File, self.My_Model_Handler.all_My_Employees))
+       #
+       #     if file_type == "csv":
+       #         self.My_Model_Handler.all_My_Employees.update(my_Reader.csv_reader(file_path, self.My_Model_Handler.error_File,self.My_Model_Handler.all_My_Employees))
 
+    # Ryan Parker
+    def do_load(self, line):
+        """
+        Syntax: loads from database
+        Retrives data from the database
+        Prints 'data retrived' if successful or errors if not
+        returns: none
+        """
+        self.My_Model_Handler.Get_All_Employees_Database()
+
+    # Ryan Parker
     def do_SaveNewEmployees(self, line):
         """
         Syntax: SaveNewEmployees
@@ -45,6 +78,17 @@ class My_CMD(Cmd):
         self.My_Model_Handler.Save_New_Employees_Database()
         print("Database updated")
 
+    # Ryan Parker
+    def do_saveTXT(self, line):
+        """
+        Syntax: SaveNewEmployees
+        Saves all newly Added Employees to a txt file
+        Prints 'saved to file sucessfuly' or errors
+        returns: none
+        """
+
+        self.My_Model_Handler.save_to_txt()
+
     def do_InputEmployee(self, line):
         """
         syntax: InputEmployee()
@@ -52,62 +96,8 @@ class My_CMD(Cmd):
         Adds new single employee to all_My_Employees
         returns: none
         """
-
-        # empid = input("employee id number e.g. A102: ")
-        # while val.val_empid(empid) == False:
-        #     if val.val_empid(empid):
-        #         pass
-        #     else:
-        #         print('invalid ID try again')
-        #         empid = input("employee id number e.g. A102: ")
-        #
-        # gender = input("employee's gender M or F: ")
-        # while val.val_gender(gender) == False:
-        #     if val.val_gender(gender):
-        #         pass
-        #     else:
-        #         print('invalid gender try again')
-        #         gender = input("employee's gender M or F: ")
-
-        age = input("employee's age: ")
-        while self.My_Model_Handler.Validate_Age(age)[0] == False:
-                print(self.My_Model_Handler.Validate_Age(age)[1])
-                age = input("employee's age: ")
-
-        # sales = input("number of sales employee has made (3 digit number): ")
-        # while val.val_sales(sales) == False:
-        #     if val.val_sales(sales):
-        #         pass
-        #     else:
-        #         print('invalid sales try again: ')
-        #         sales = input("number of sales employee has made (3 digit number): ")
-        #
-        # bmi = input("employee's bmi (Normal, Overweight, Obesity, or Underweight): ")
-        # while val.val_bmi(bmi) == False:
-        #     if val.val_bmi(bmi):
-        #         pass
-        #     else:
-        #         print('invalid bmi try again: ')
-        #         bmi = input("employee's bmi (Normal, Overweight, Obesity, or Underweight): ")
-        #
-        # salary = input("employee's salary(5 digit number): ")
-        # while val.val_salary(salary) == False:
-        #     if val.val_salary(salary):
-        #         pass
-        #     else:
-        #         print('invalid salary try again: ')
-        #         salary = input("employee's salary(5 digit number): ")
-
-        # birthday = input("employee's birthday DD-MM-YYYY: ")
-        # while val.val_birthday(birthday) == False:
-        #     if val.val_birthday(birthday):
-        #         pass
-        #     else:
-        #         print('invalid bithday try again: ')
-        #         birthday = input("employee's birthday DD-MM-YYYY: ")
-
-        #Then adds employee to All_My_Employees()
-
+        self.My_Model_Handler.add_employee()
+    # Alex
     def do_Graph(self, typeGraph):
         """
         syntax: Graph(self, typeGraph, value1, value2)
@@ -116,16 +106,66 @@ class My_CMD(Cmd):
         returns: none
         """
 
-        # If typeGraph == bar
-        #createBarGraph
+        # Alex
+        if(typeGraph == "bar"):
+            data = input("What data do you want displayed? (age, salary, sales)")
+            self.My_Model_Handler.CreateBar(data, self.My_Model_Handler.all_My_Employees)
+        # Ryan Parker
+        elif typeGraph == "pie":
+            data = input("What data do you want displayed? (gender, bmi)")
+            self.My_Model_Handler.create_pie(data)
 
-        # If typeGraph == line
-        # createLineGraph
-
-        # If typeGraph == pie
-        # createPieGraph
-
+        #Kate Pham
+        # If typeGraph == scatter
+        # createScatterGraph
+        elif(typeGraph == "scatter"):
+            data1 = input("Choose data set: (gender, sales, salary)")
+            data2 = input("Choose second set data to compare to: (bmi, sales, salary)")
+            self.My_Model_Handler.create_scatter(data1, data2)
+        else:
+            print("please input a valid graph type: bar, pie, scatter")
         # If values cannot be represented in graph print why they cannot
+
+    def do_ShowEmployees(self, line):
+        """
+        syntax: do_ShowEmployees()
+        Prints a list of all the EMPID's that are present in all_my_employees
+        returns: none
+        """
+        for key in self.My_Model_Handler.all_My_Employees:
+            print(key)
+
+
+    #Kate Pham
+    def do_pickle(self, file_name):
+        """ Does pickle thing and pint error if does no file name detected
+
+            cmd: pickle(file name)"""
+        a = {'empid':'aev100'}
+        try:
+            if file_name == "":
+                raise FileExistsError("The file name must not be empty")
+            else:
+                with open(file_name, "wb") as handle:
+                    pickle.dump(self.My_Model_Handler.all_My_Employees, handle, protocol=pickle.HIGHEST_PROTOCOL)
+                    print("File name: " + file_name)
+        except FileExistsError as e:
+            print(e)
+
+    def do_unpickle(self, file_name):
+        "unpickle thing"
+        all_my_employees = []
+        try:
+            if file_name == "":
+                raise FileExistsError("file does not exist")
+            else:
+                with open(file_name, "rb") as handle:
+                    all_my_employees.append(pickle.load(handle))
+                self.My_Model_Handler.all_My_Employees = all_my_employees[0]
+                print("Load successed: " + file_name)
+        except FileExistsError as e:
+            print(e)
+
 
     def do_quit(self, line):
         """
@@ -140,3 +180,4 @@ class My_CMD(Cmd):
             print("Database Updated")
         print("Quitting ......")
         return True
+
